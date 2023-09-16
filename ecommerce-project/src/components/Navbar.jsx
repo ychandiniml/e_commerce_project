@@ -2,6 +2,8 @@ import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
 
 const themes = {
     winter: 'winter',
