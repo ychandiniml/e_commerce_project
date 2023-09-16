@@ -1,34 +1,18 @@
 import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
+import NavLinks from './NavLinks';
 
-const themes = {
-    winter: 'winter',
-    dracula: 'dracula',
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleTheme } from '../features/user/userSlice';
+
+const Navbar = () => {
+  const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
+
+  const dispatch = useDispatch();
+  const handleTheme = () => {
+    dispatch(toggleTheme());
   };
-  
-  const getThemeFromLocalStorage = () => {
-    return localStorage.getItem('theme') || themes.winter;
-  };
-  
-  const Navbar = () => {
-    const [theme, setTheme] = useState(getThemeFromLocalStorage());
-  
-    const handleTheme = () => {
-      const { winter, dracula } = themes;
-      const newTheme = theme === winter ? dracula : winter;
-      setTheme(newTheme);
-    };
-  
-    useEffect(() => {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    }, [theme]);
-  
-  
   return (
     <nav className='bg-base-200'>
       <div className='navbar align-element '>
@@ -49,17 +33,19 @@ const themes = {
               tabIndex={0}
               className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52'
             >
-              nav links
+              <NavLinks />
             </ul>
           </div>
         </div>
         <div className='navbar-center hidden lg:flex'>
-          <ul className='menu menu-horizontal '>nav links</ul>
+          <ul className='menu menu-horizontal '>
+            <NavLinks />
+          </ul>
         </div>
         <div className='navbar-end'>
           {/* THEME ICONS */}
           <label className='swap swap-rotate '>
-             {/* this hidden checkbox controls the state */}
+            {/* this hidden checkbox controls the state */}
             <input type='checkbox' onChange={handleTheme} />
 
             {/* sun icon */}
@@ -67,13 +53,13 @@ const themes = {
 
             {/* moon icon */}
             <BsMoonFill className='swap-off h-4 w-4' />
-            </label>
+          </label>
           {/* CART LINK*/}
           <NavLink to='cart' className='btn btn-ghost btn-circle btn-md ml-4'>
             <div className='indicator'>
               <BsCart3 className='h-6 w-6' />
               <span className='badge badge-sm badge-primary indicator-item'>
-                8
+                {numItemsInCart}
               </span>
             </div>
           </NavLink>
