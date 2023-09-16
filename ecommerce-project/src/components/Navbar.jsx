@@ -1,13 +1,31 @@
 import { BsCart3, BsMoonFill, BsSunFill } from 'react-icons/bs';
 import { FaBarsStaggered } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const Navbar = () => {
-  const [theme, setTheme] = useState(false);
-  const handleTheme = () => {
-    setTheme(!theme);
+const themes = {
+    winter: 'winter',
+    dracula: 'dracula',
   };
+  
+  const getThemeFromLocalStorage = () => {
+    return localStorage.getItem('theme') || themes.winter;
+  };
+  
+  const Navbar = () => {
+    const [theme, setTheme] = useState(getThemeFromLocalStorage());
+  
+    const handleTheme = () => {
+      const { winter, dracula } = themes;
+      const newTheme = theme === winter ? dracula : winter;
+      setTheme(newTheme);
+    };
+  
+    useEffect(() => {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }, [theme]);
+  
   
   return (
     <nav className='bg-base-200'>
@@ -39,8 +57,7 @@ const Navbar = () => {
         <div className='navbar-end'>
           {/* THEME ICONS */}
           <label className='swap swap-rotate '>
-          {/* this hidden checkbox controls the state */}
-
+             {/* this hidden checkbox controls the state */}
             <input type='checkbox' onChange={handleTheme} />
 
             {/* sun icon */}
@@ -48,9 +65,7 @@ const Navbar = () => {
 
             {/* moon icon */}
             <BsMoonFill className='swap-off h-4 w-4' />
-          </label>
-        </div>;
-
+            </label>
           {/* CART LINK*/}
           <NavLink to='cart' className='btn btn-ghost btn-circle btn-md ml-4'>
             <div className='indicator'>
