@@ -29,6 +29,15 @@ import { action as checkoutAction } from './components/CheckoutForm';
 import { store } from './store';
 
 
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -44,10 +53,14 @@ const router = createBrowserRouter([
       {
         path: 'products',
         element: <Products />,
+        loader: productsLoader(queryClient),
+        errorElement: <ErrorElement />,
       },
       {
         path: 'products/:id',
         element: <SingleProduct />,
+        loader: singleProductLoader(queryClient),
+        errorElement: <ErrorElement />,
       },
       {
         path: 'cart',
@@ -58,14 +71,14 @@ const router = createBrowserRouter([
         path: 'checkout',
         element: <Checkout />,
         loader: checkoutLoader(store),
-        action: checkoutAction(store),
+        action: checkoutAction(store , queryClient),
 
 
       },
       {
         path: 'orders',
         element: <Orders />,
-        loader: ordersLoader(store),
+        loader: ordersLoader(store , queryClient),
 
       },
     ],
@@ -84,7 +97,14 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+
+
 };
 export default App;
 
