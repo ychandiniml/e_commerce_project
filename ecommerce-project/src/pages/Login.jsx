@@ -26,3 +26,10 @@ export const action =
       return null;
     }
   };
+
+
+  export const loader = (queryClient) => async () => {
+    const response = await customFetch(url);
+    const products = response.data.data;
+    return { products };
+  };  
