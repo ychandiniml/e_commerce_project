@@ -24,7 +24,7 @@ const Navbar = () => {
             to='/'
             className='hidden lg:flex btn btn-primary text-3xl items-center'
           >
-            C
+            E
           </NavLink>
           {/* DROPDOWN */}
           <div className='dropdown'>
