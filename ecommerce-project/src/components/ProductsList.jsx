@@ -3,12 +3,12 @@ import { Link, useLoaderData } from 'react-router-dom';
 
 const ProductList = () => {
   const { products } = useLoaderData();
+
   return (
     <div className='mt-12 grid gap-y-8'>
       {products.map((product) => {
         const { title, price, image, company } = product.attributes;
         const dollarsAmount = formatPrice(price);
-
         return (
           <Link
             key={product.id}
@@ -25,10 +25,7 @@ const ProductList = () => {
               <h4 className='capitalize text-md text-neutral-content'>
                 {company}
               </h4>
-
-              {/* COLOR */}
             </div>
-
             <p className='font-medium ml-0 sm:ml-auto text-lg'>
               {dollarsAmount}
             </p>
@@ -38,5 +35,4 @@ const ProductList = () => {
     </div>
   );
 };
-
 export default ProductList;

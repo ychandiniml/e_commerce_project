@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-
 const themes = {
     winter: 'winter',
     dracula: 'dracula',
@@ -33,7 +32,6 @@ const userSlice = createSlice({
     },
     logoutUser: (state) => {
         state.user = null;
-        // localStorage.clear()
         localStorage.removeItem('user');
         toast.success('Logged out successfully'); 
     },
